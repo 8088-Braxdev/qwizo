@@ -6,7 +6,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
       <Navbar />
-      <main>{children}</main>
+      <main style={{ minHeight: "calc(100vh - 60px)" }}>{children}</main>
     </AuthProvider>
   );
 }
