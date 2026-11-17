@@ -6,8 +6,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
       <Navbar />
-      <main className="min-h-[calc(100vh-4rem)]">{children}</main>
+      <main>{children}</main>
     </AuthProvider>
   );
 }
-

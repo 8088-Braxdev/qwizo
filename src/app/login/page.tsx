@@ -10,7 +10,6 @@ export default function LoginPage() {
   const { signIn } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [mode, setMode] = useState<"google" | "email">("google");
 
   async function handleGoogle() {
     await signIn("u-demo");
@@ -23,23 +22,22 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="container py-20 max-w-md">
-      <Card className="p-8">
-        <h1 className="text-2xl font-bold text-center">Sign in to Qwizo</h1>
-        <p className="text-center text-muted mt-2">Learn. Play. Connect.</p>
-        <div className="mt-6 space-y-3">
-          <Button className="w-full" onClick={handleGoogle}>Continue with Google</Button>
-          <div className="text-center text-sm text-muted">or</div>
-          <form onSubmit={handleEmail} className="space-y-3">
+    <div className="container-narrow section">
+      <Card>
+        <h1 className="h2" style={{ textAlign: "center" }}>Sign in to Qwizo</h1>
+        <p className="muted" style={{ textAlign: "center", marginTop: "0.5rem" }}>Learn. Play. Connect.</p>
+        <div className="stack" style={{ marginTop: "1.5rem" }}>
+          <Button className="btn-block" onClick={handleGoogle}>Continue with Google</Button>
+          <div className="muted small" style={{ textAlign: "center" }}>or</div>
+          <form onSubmit={handleEmail} className="stack">
             <Input type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <Button variant="secondary" className="w-full" type="submit">Send magic link</Button>
+            <Button variant="outline" className="btn-block" type="submit">Send magic link</Button>
           </form>
         </div>
-        <p className="text-xs text-muted mt-6 text-center">
+        <p className="muted small" style={{ marginTop: "1.5rem", textAlign: "center" }}>
           By continuing you agree to our terms. No password required.
         </p>
       </Card>
     </div>
   );
 }
-

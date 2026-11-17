@@ -24,22 +24,21 @@ export default function CollectionsPage() {
   }
 
   return (
-    <div className="container py-8">
-      <h1 className="text-3xl font-bold">Collections</h1>
-      <div className="mt-6 flex gap-3">
-        <Input placeholder="New collection title" value={title} onChange={(e) => setTitle(e.target.value)} />
+    <div className="container section">
+      <h1 className="h1">Collections</h1>
+      <div className="row" style={{ marginTop: "1.5rem" }}>
+        <Input placeholder="New collection title" value={title} onChange={(e) => setTitle(e.target.value)} style={{ flex: 1, minWidth: 200 }} />
         <Button onClick={create} disabled={!title.trim()}>Create</Button>
       </div>
-      <div className="mt-6 grid md:grid-cols-3 gap-4">
+      <div className="grid-3" style={{ marginTop: "2rem" }}>
         {cols.map((c) => (
-          <Card key={c.id} className="p-5">
-            <h3 className="font-semibold">{c.title}</h3>
-            <p className="text-sm text-muted mt-1">{c.items?.length || 0} items · {c.visibility}</p>
+          <Card key={c.id} className="card-hover">
+            <h3 className="h3" style={{ fontSize: "1.1rem" }}>{c.title}</h3>
+            <p className="muted small" style={{ marginTop: "0.25rem" }}>{c.items?.length || 0} items · {c.visibility}</p>
           </Card>
         ))}
-        {cols.length === 0 && <p className="text-muted">No collections yet.</p>}
+        {cols.length === 0 && <p className="muted">No collections yet.</p>}
       </div>
     </div>
   );
 }
-

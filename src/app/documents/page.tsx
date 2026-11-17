@@ -26,26 +26,27 @@ export default function DocumentsPage() {
   }
 
   return (
-    <div className="container py-8 max-w-3xl">
-      <h1 className="text-3xl font-bold">Documents</h1>
-      <p className="text-muted mt-1">Upload or paste learning material for AI generation.</p>
-      <Card className="p-6 mt-6 space-y-3">
-        <Input placeholder="Document title" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <Textarea rows={6} placeholder="Paste text..." value={text} onChange={(e) => setText(e.target.value)} />
-        <Button onClick={upload} disabled={!text.trim()}>Upload</Button>
+    <div className="container-narrow section">
+      <h1 className="h1">Documents</h1>
+      <p className="muted" style={{ marginTop: "0.5rem" }}>Upload or paste learning material for AI generation.</p>
+      <Card style={{ marginTop: "1.5rem" }}>
+        <div className="stack">
+          <Input placeholder="Document title" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <Textarea rows={6} placeholder="Paste text..." value={text} onChange={(e) => setText(e.target.value)} />
+          <Button onClick={upload} disabled={!text.trim()}>Upload</Button>
+        </div>
       </Card>
-      <div className="mt-6 space-y-3">
+      <div className="stack" style={{ marginTop: "1.5rem" }}>
         {docs.map((d) => (
-          <Card key={d.id} className="p-4 flex items-center justify-between">
+          <Card key={d.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div>
-              <div className="font-medium">{d.title}</div>
-              <div className="text-xs text-muted">{d.processingStatus}</div>
+              <div className="h3" style={{ fontSize: "1rem" }}>{d.title}</div>
+              <div className="muted small">{d.processingStatus}</div>
             </div>
-            <Link href={`/create/ai`}><Button variant="secondary" className="text-sm">Generate</Button></Link>
+            <Link href="/create/ai"><Button variant="ghost" className="small">Generate</Button></Link>
           </Card>
         ))}
       </div>
     </div>
   );
 }
-

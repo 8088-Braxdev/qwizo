@@ -19,43 +19,43 @@ export default function Home() {
   }, [user]);
 
   return (
-    <div className="container py-8">
-      <h1 className="text-3xl font-bold">Welcome back{user ? `, ${user.displayName}` : ""}</h1>
-      <p className="text-muted mt-1">Keep your streak going.</p>
+    <div className="container section">
+      <h1 className="h1">Welcome back{user ? `, ${user.displayName}` : ""}</h1>
+      <p className="muted" style={{ marginTop: "0.5rem" }}>Keep your streak going.</p>
 
-      <div className="mt-6 grid md:grid-cols-4 gap-4">
-        <Card className="p-5"><div className="text-sm text-muted">XP</div><div className="text-2xl font-bold">{progress?.progress?.xp ?? 0}</div></Card>
-        <Card className="p-5"><div className="text-sm text-muted">Streak</div><div className="text-2xl font-bold">{progress?.progress?.streak ?? 0} days</div></Card>
-        <Card className="p-5"><div className="text-sm text-muted">Quizzes</div><div className="text-2xl font-bold">{progress?.progress?.attempts ?? 0}</div></Card>
-        <Card className="p-5"><div className="text-sm text-muted">Accuracy</div><div className="text-2xl font-bold">{progress?.progress?.accuracy ?? 0}%</div></Card>
+      <div className="grid-2" style={{ marginTop: "2rem" }}>
+        <div className="stat"><div className="stat-label">XP</div><div className="stat-value">{progress?.progress?.xp ?? 0}</div></div>
+        <div className="stat"><div className="stat-label">Streak</div><div className="stat-value">{progress?.progress?.streak ?? 0} days</div></div>
+        <div className="stat"><div className="stat-label">Quizzes</div><div className="stat-value">{progress?.progress?.attempts ?? 0}</div></div>
+        <div className="stat"><div className="stat-label">Accuracy</div><div className="stat-value">{progress?.progress?.accuracy ?? 0}%</div></div>
       </div>
 
       {challenge?.challenge && (
-        <Card className="mt-6 p-6">
-          <div className="flex items-center justify-between">
+        <Card style={{ marginTop: "2rem" }}>
+          <div className="row" style={{ justifyContent: "space-between" }}>
             <div>
-              <h2 className="text-xl font-semibold">{challenge.challenge.title}</h2>
-              <p className="text-muted">{challenge.challenge.description}</p>
+              <h2 className="h3">{challenge.challenge.title}</h2>
+              <p className="muted" style={{ marginTop: "0.25rem" }}>{challenge.challenge.description}</p>
             </div>
             <Link href={challenge.challenge.quizId ? `/quiz/${challenge.challenge.quizId}/play` : "/explore"}>
-              <Button>{challenge.completed ? "Completed" : "Start"}</Button>
+              <Button variant={challenge.completed ? "ghost" : "accent"}>{challenge.completed ? "Completed" : "Start"}</Button>
             </Link>
           </div>
         </Card>
       )}
 
-      <div className="mt-8">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">Discover</h2>
-          <Link href="/explore" className="text-blue-700 text-sm">View all</Link>
+      <div style={{ marginTop: "3rem" }}>
+        <div className="row" style={{ justifyContent: "space-between" }}>
+          <h2 className="h2">Discover</h2>
+          <Link href="/explore" className="navbar-link">View all →</Link>
         </div>
-        <div className="mt-4 grid md:grid-cols-3 gap-4">
+        <div className="grid-3" style={{ marginTop: "1.25rem" }}>
           {sets.map((s: any) => (
-            <Card key={s.id} className="p-5">
-              <h3 className="font-semibold">{s.title}</h3>
-              <p className="text-sm text-muted mt-1 line-clamp-2">{s.description}</p>
-              <div className="mt-3">
-                <Link href={`/quiz/${s.quizzes?.[0]?.id || s.id}/play`}><Button variant="secondary" className="text-sm">Start</Button></Link>
+            <Card key={s.id} className="card-hover">
+              <h3 className="h3">{s.title}</h3>
+              <p className="muted line-clamp-2" style={{ marginTop: "0.5rem", fontSize: "0.9rem" }}>{s.description}</p>
+              <div style={{ marginTop: "1rem" }}>
+                <Link href={`/quiz/${s.quizzes?.[0]?.id || s.id}/play`}><Button variant="outline" className="small">Start</Button></Link>
               </div>
             </Card>
           ))}
@@ -64,4 +64,3 @@ export default function Home() {
     </div>
   );
 }
-

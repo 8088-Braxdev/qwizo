@@ -10,26 +10,22 @@ export default function ProfilePage() {
     const uid = user?.id || "u-demo";
     fetch(`/api/quizzes?creatorId=${uid}&visibility=public`, { headers: { "x-user-id": uid } }).then((r) => r.json()).then((d) => setSets(d.studySets || []));
   }, [user]);
-  if (!user) return <div className="container py-8">Please sign in.</div>;
+  if (!user) return <div className="container section"><p className="muted">Please sign in.</p></div>;
   return (
-    <div className="container py-8 max-w-3xl">
-      <Card className="p-6">
-        <h1 className="text-2xl font-bold">{user.displayName}</h1>
-        <p className="text-muted">@{user.username}</p>
-        {user.bio && <p className="mt-2">{user.bio}</p>}
-        <div className="mt-4 text-sm text-muted">XP: {user.xp} · Streak: {user.streak}</div>
+    <div className="container-narrow section">
+      <Card>
+        <h1 className="h2">{user.displayName}</h1>
+        <p className="muted">@{user.username}</p>
+        {user.bio && <p style={{ marginTop: "0.75rem" }}>{user.bio}</p>}
+        <div className="muted small" style={{ marginTop: "0.75rem" }}>XP: {user.xp} · Streak: {user.streak}</div>
       </Card>
-      <h2 className="text-xl font-semibold mt-8">Created content</h2>
-      <div className="mt-4 grid md:grid-cols-2 gap-4">
+      <h2 className="h2" style={{ marginTop: "2rem" }}>Created content</h2>
+      <div className="grid-2" style={{ marginTop: "1rem" }}>
         {sets.map((s) => (
-          <Card key={s.id} className="p-4">
-            <div className="font-medium">{s.title}</div>
-            <div className="text-sm text-muted">{s.status}</div>
-          </Card>
+          <Card key={s.id}><div className="h3" style={{ fontSize: "1rem" }}>{s.title}</div><div className="muted small">{s.status}</div></Card>
         ))}
-        {sets.length === 0 && <p className="text-muted">No published content yet.</p>}
+        {sets.length === 0 && <p className="muted">No published content yet.</p>}
       </div>
     </div>
   );
 }
-

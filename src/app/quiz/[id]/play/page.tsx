@@ -35,31 +35,30 @@ export default function QuizPlay() {
     const d = await res.json();
     setAttempt(d.attempt);
     setSubmitted(true);
-    // fetch review (full quiz with explanations)
     const r = await fetch(`/api/quizzes/${id}?review=1`);
     const rd = await r.json();
     setReview(rd.quiz || rd.studySet?.quizzes?.[0]);
   }
 
-  if (!quiz) return <div className="container py-8">Loading quiz...</div>;
+  if (!quiz) return <div className="container section"><p className="muted">Loading quiz...</p></div>;
 
   const questions = quiz.questions || [];
 
   return (
-    <div className="container py-8 max-w-3xl">
-      <h1 className="text-3xl font-bold">{quiz.title}</h1>
-      <p className="text-muted mt-1">{quiz.description}</p>
+    <div className="container-narrow section">
+      <h1 className="h1">{quiz.title}</h1>
+      <p className="muted" style={{ marginTop: "0.5rem" }}>{quiz.description}</p>
 
       {!submitted ? (
         <>
-          <div className="mt-6 space-y-6">
+          <div className="stack" style={{ marginTop: "2rem" }}>
             {questions.map((q: any, idx: number) => (
-              <Card key={q.id} className="p-5">
-                <div className="font-medium">{idx + 1}. {q.text}</div>
-                <div className="mt-3 space-y-2">
+              <Card key={q.id}>
+                <div className="h3">{idx + 1}. {q.text}</div>
+                <div className="stack" style={{ marginTop: "1rem" }}>
                   {q.options.map((o: any) => (
-                    <label key={o.id} className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer border ${answers[q.id] === o.id ? "border-blue-500 bg-blue-50" : "border-slate-200"}`}>
-                      <input type="radio" name={q.id} checked={answers[q.id] === o.id} onChange={() => select(q.id, o.id)} />
+                    <label key={o.id} className={`option ${answers[q.id] === o.id ? "selected" : ""}`} onClick={() => select(q.id, o.id)}>
+                      <input type="radio" checked={answers[q.id] === o.id} onChange={() => select(q.id, o.id)} />
                       <span>{o.text}</span>
                     </label>
                   ))}
@@ -67,35 +66,35 @@ export default function QuizPlay() {
               </Card>
             ))}
           </div>
-          <div className="mt-6">
+          <div style={{ marginTop: "1.5rem" }}>
             <Button onClick={submit} disabled={Object.keys(answers).length < questions.length}>Submit answers</Button>
           </div>
         </>
       ) : (
-        <div className="mt-6">
-          <Card className="p-6 text-center">
-            <div className="text-4xl font-bold text-blue-600">{attempt?.score}/{attempt?.total}</div>
-            <div className="text-muted mt-1">Score</div>
+        <div style={{ marginTop: "2rem" }}>
+          <Card style={{ textAlign: "center" }}>
+            <div className="stat-value" style={{ color: "var(--primary)" }}>{attempt?.score}/{attempt?.total}</div>
+            <div className="muted">Score</div>
           </Card>
-          <div className="mt-6 space-y-4">
+          <div className="stack" style={{ marginTop: "1.5rem" }}>
             {(review?.questions || questions).map((q: any, idx: number) => {
               const ans = attempt?.answers?.find((a: any) => a.questionId === q.id);
               const correctOpt = q.options?.find((o: any) => o.isCorrect);
               const selectedOpt = q.options?.find((o: any) => o.id === ans?.selectedOptionId);
               return (
-                <Card key={q.id} className={`p-5 border-l-4 ${ans?.isCorrect ? "border-l-green-500" : "border-l-red-500"}`}>
-                  <div className="font-medium">{idx + 1}. {q.text}</div>
-                  <div className="mt-2 text-sm">
-                    Your answer: <span className={ans?.isCorrect ? "text-green-600" : "text-red-600"}>{selectedOpt?.text || "—"}</span>
+                <Card key={q.id} className={ans?.isCorrect ? "correct" : "wrong"} style={{ borderLeft: `4px solid ${ans?.isCorrect ? "var(--success)" : "var(--danger)"}` }}>
+                  <div className="h3">{idx + 1}. {q.text}</div>
+                  <div style={{ marginTop: "0.5rem", fontSize: "0.9rem" }}>
+                    Your answer: <span style={{ color: ans?.isCorrect ? "var(--success)" : "var(--danger)", fontWeight: 600 }}>{selectedOpt?.text || "—"}</span>
                   </div>
-                  {!ans?.isCorrect && <div className="text-sm text-green-600">Correct: {correctOpt?.text}</div>}
-                  {q.explanation && <div className="mt-2 text-sm text-muted">{q.explanation}</div>}
+                  {!ans?.isCorrect && <div style={{ fontSize: "0.9rem", color: "var(--success)", marginTop: "0.25rem" }}>Correct: {correctOpt?.text}</div>}
+                  {q.explanation && <div className="muted" style={{ marginTop: "0.5rem", fontSize: "0.85rem" }}>{q.explanation}</div>}
                 </Card>
               );
             })}
           </div>
-          <div className="mt-6 flex gap-3">
-            <Link href="/explore"><Button variant="secondary">Back to explore</Button></Link>
+          <div className="row" style={{ marginTop: "1.5rem" }}>
+            <Link href="/explore"><Button variant="ghost">Back to explore</Button></Link>
             <Link href="/home"><Button>Home</Button></Link>
           </div>
         </div>

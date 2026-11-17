@@ -43,51 +43,56 @@ export default function AICreator() {
   }
 
   return (
-    <div className="container py-8 max-w-3xl">
-      <h1 className="text-3xl font-bold">Create with AI</h1>
-      <p className="text-muted mt-1">Paste notes or text. AI will generate a draft you can review and edit.</p>
-      <Card className="p-6 mt-6 space-y-4">
-        <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <Textarea rows={8} placeholder="Paste your text or notes here..." value={text} onChange={(e) => setText(e.target.value)} />
-        <div className="flex items-center gap-3">
-          <label className="text-sm text-muted">Questions:</label>
-          <input type="number" min={1} max={20} value={count} onChange={(e) => setCount(Number(e.target.value))} className="w-20 rounded-xl border border-slate-300 px-3 py-2" />
-          <Button onClick={generate} disabled={!text.trim() || loading}>{loading ? "Generating..." : "Generate"}</Button>
+    <div className="container-narrow section">
+      <h1 className="h1">Create with AI</h1>
+      <p className="muted" style={{ marginTop: "0.5rem" }}>Paste notes or text. AI will generate a draft you can review and edit.</p>
+      <Card style={{ marginTop: "1.5rem" }}>
+        <div className="stack">
+          <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <Textarea rows={8} placeholder="Paste your text or notes here..." value={text} onChange={(e) => setText(e.target.value)} />
+          <div className="row">
+            <label className="muted small">Questions:</label>
+            <input type="number" min={1} max={20} value={count} onChange={(e) => setCount(Number(e.target.value))} className="input" style={{ width: 80 }} />
+            <Button onClick={generate} disabled={!text.trim() || loading}>{loading ? "Generating..." : "Generate"}</Button>
+          </div>
         </div>
       </Card>
 
       {result && (
-        <div className="mt-6 space-y-4">
-          <h2 className="text-xl font-semibold">Generated draft (review before publishing)</h2>
-          {result.summary && <Card className="p-4 text-sm text-muted">{result.summary}</Card>}
-          {(result.questions || []).map((q: any, i: number) => (
-            <Card key={i} className="p-5">
-              <div className="font-medium">{i + 1}. {q.text}</div>
-              <ul className="mt-2 text-sm space-y-1">
-                {q.options.map((o: any, j: number) => (
-                  <li key={j} className={o.isCorrect ? "text-green-600 font-medium" : "text-slate-600"}>{o.text}{o.isCorrect ? " ✓" : ""}</li>
-                ))}
-              </ul>
-              {q.explanation && <div className="mt-2 text-xs text-muted">{q.explanation}</div>}
-            </Card>
-          ))}
+        <div style={{ marginTop: "2rem" }}>
+          <h2 className="h2">Generated draft (review before publishing)</h2>
+          {result.summary && <Card style={{ marginTop: "1rem" }}><p className="muted small">{result.summary}</p></Card>}
+          <div className="stack" style={{ marginTop: "1rem" }}>
+            {(result.questions || []).map((q: any, i: number) => (
+              <Card key={i}>
+                <div className="h3">{i + 1}. {q.text}</div>
+                <ul style={{ marginTop: "0.5rem", paddingLeft: "1.25rem", fontSize: "0.9rem" }}>
+                  {q.options.map((o: any, j: number) => (
+                    <li key={j} style={{ color: o.isCorrect ? "var(--success)" : "var(--ink-soft)", fontWeight: o.isCorrect ? 600 : 400 }}>
+                      {o.text}{o.isCorrect ? " ✓" : ""}
+                    </li>
+                  ))}
+                </ul>
+                {q.explanation && <div className="muted small" style={{ marginTop: "0.5rem" }}>{q.explanation}</div>}
+              </Card>
+            ))}
+          </div>
           {(result.flashcards || []).length > 0 && (
-            <div>
-              <h3 className="font-semibold mt-4">Flashcards</h3>
-              <div className="grid md:grid-cols-2 gap-3 mt-2">
+            <div style={{ marginTop: "1.5rem" }}>
+              <h3 className="h3">Flashcards</h3>
+              <div className="grid-2" style={{ marginTop: "0.75rem" }}>
                 {result.flashcards.map((f: any, i: number) => (
-                  <Card key={i} className="p-4"><div className="font-medium">{f.front}</div><div className="text-sm text-muted mt-1">{f.back}</div></Card>
+                  <Card key={i}><div className="h3" style={{ fontSize: "1rem" }}>{f.front}</div><div className="muted small" style={{ marginTop: "0.5rem" }}>{f.back}</div></Card>
                 ))}
               </div>
             </div>
           )}
-          <div className="flex gap-3">
-            <Button onClick={() => save(false)}>Save draft</Button>
-            <Button onClick={() => save(true)}>Publish</Button>
+          <div className="row" style={{ marginTop: "1.5rem" }}>
+            <Button variant="outline" onClick={() => save(false)}>Save draft</Button>
+            <Button variant="accent" onClick={() => save(true)}>Publish</Button>
           </div>
         </div>
       )}
     </div>
   );
 }
-

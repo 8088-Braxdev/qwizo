@@ -24,32 +24,30 @@ export default function Explore() {
   useEffect(() => { load(); }, []);
 
   return (
-    <div className="container py-8">
-      <h1 className="text-3xl font-bold">Explore</h1>
-      <p className="text-muted mt-1">Discover learning materials created by the community.</p>
-      <div className="mt-6 flex flex-col md:flex-row gap-3">
-        <Input placeholder="Search topics, titles..." value={q} onChange={(e) => setQ(e.target.value)} />
-        <select className="rounded-xl border border-slate-300 px-3 py-2.5" value={topic} onChange={(e) => setTopic(e.target.value)}>
+    <div className="container section">
+      <h1 className="h1">Explore</h1>
+      <p className="muted" style={{ marginTop: "0.5rem" }}>Discover learning materials created by the community.</p>
+      <div className="row" style={{ marginTop: "1.5rem" }}>
+        <input className="input" placeholder="Search topics, titles..." value={q} onChange={(e) => setQ(e.target.value)} style={{ flex: 1, minWidth: 200 }} />
+        <select className="select" value={topic} onChange={(e) => setTopic(e.target.value)} style={{ minWidth: 160 }}>
           <option value="">All topics</option>
           {topics.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
         </select>
         <Button onClick={load}>Search</Button>
       </div>
-      <div className="mt-8 grid md:grid-cols-3 gap-4">
+      <div className="grid-3" style={{ marginTop: "2rem" }}>
         {sets.map((s: any) => (
-          <Card key={s.id} className="p-5">
-            <h3 className="font-semibold">{s.title}</h3>
-            <p className="text-sm text-muted mt-1 line-clamp-3">{s.description}</p>
-            <div className="mt-2 text-xs text-muted">{s.visibility}</div>
-            <div className="mt-3 flex gap-2">
-              <Link href={`/study-set/${s.id}`}><Button variant="secondary" className="text-sm">Details</Button></Link>
-              <Link href={`/quiz/${s.quizzes?.[0]?.id || s.id}/play`}><Button className="text-sm">Start</Button></Link>
+          <Card key={s.id} className="card-hover">
+            <h3 className="h3">{s.title}</h3>
+            <p className="muted line-clamp-3" style={{ marginTop: "0.5rem", fontSize: "0.9rem" }}>{s.description}</p>
+            <div style={{ marginTop: "1rem", display: "flex", gap: "0.5rem" }}>
+              <Link href={`/study-set/${s.id}`}><Button variant="ghost" className="small">Details</Button></Link>
+              <Link href={`/quiz/${s.quizzes?.[0]?.id || s.id}/play`}><Button variant="primary" className="small">Start</Button></Link>
             </div>
           </Card>
         ))}
-        {sets.length === 0 && <p className="text-muted col-span-full">No content found.</p>}
+        {sets.length === 0 && <p className="empty">No content found.</p>}
       </div>
     </div>
   );
 }
-

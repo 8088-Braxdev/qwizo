@@ -14,35 +14,34 @@ export default function ProgressPage() {
 
   const p = data?.progress;
   return (
-    <div className="container py-8">
-      <h1 className="text-3xl font-bold">Your progress</h1>
-      <div className="mt-6 grid md:grid-cols-4 gap-4">
-        <Card className="p-5"><div className="text-sm text-muted">XP</div><div className="text-2xl font-bold">{p?.xp ?? 0}</div></Card>
-        <Card className="p-5"><div className="text-sm text-muted">Streak</div><div className="text-2xl font-bold">{p?.streak ?? 0}</div></Card>
-        <Card className="p-5"><div className="text-sm text-muted">Quizzes</div><div className="text-2xl font-bold">{p?.attempts ?? 0}</div></Card>
-        <Card className="p-5"><div className="text-sm text-muted">Accuracy</div><div className="text-2xl font-bold">{p?.accuracy ?? 0}%</div></Card>
+    <div className="container section">
+      <h1 className="h1">Your progress</h1>
+      <div className="grid-2" style={{ marginTop: "1.5rem" }}>
+        <div className="stat"><div className="stat-label">XP</div><div className="stat-value">{p?.xp ?? 0}</div></div>
+        <div className="stat"><div className="stat-label">Streak</div><div className="stat-value">{p?.streak ?? 0}</div></div>
+        <div className="stat"><div className="stat-label">Quizzes</div><div className="stat-value">{p?.attempts ?? 0}</div></div>
+        <div className="stat"><div className="stat-label">Accuracy</div><div className="stat-value">{p?.accuracy ?? 0}%</div></div>
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">Achievements</h2>
-      <div className="mt-4 grid md:grid-cols-3 gap-3">
+      <h2 className="h2" style={{ marginTop: "2.5rem" }}>Achievements</h2>
+      <div className="grid-3" style={{ marginTop: "1rem" }}>
         {(data?.achievements || []).map((a: any) => (
-          <Card key={a.id} className="p-4"><div className="font-medium">{a.name}</div><div className="text-sm text-muted">{a.description}</div></Card>
+          <Card key={a.id}><div className="h3" style={{ fontSize: "1rem" }}>{a.name}</div><p className="muted small" style={{ marginTop: "0.25rem" }}>{a.description}</p></Card>
         ))}
-        {(data?.achievements || []).length === 0 && <p className="text-muted">No achievements yet.</p>}
+        {(data?.achievements || []).length === 0 && <p className="muted">No achievements yet.</p>}
       </div>
 
-      <h2 className="text-xl font-semibold mt-8">Recent attempts</h2>
-      <div className="mt-4 space-y-2">
+      <h2 className="h2" style={{ marginTop: "2.5rem" }}>Recent attempts</h2>
+      <div className="stack" style={{ marginTop: "1rem" }}>
         {(data?.attempts || []).slice(0, 10).map((a: any) => (
-          <Card key={a.id} className="p-3 flex items-center justify-between">
+          <Card key={a.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div>Quiz {a.quizId}</div>
-            <div className="text-sm text-muted">{a.score}/{a.total}</div>
+            <div className="muted small">{a.score}/{a.total}</div>
           </Card>
         ))}
-        {(data?.attempts || []).length === 0 && <p className="text-muted">No attempts yet.</p>}
+        {(data?.attempts || []).length === 0 && <p className="muted">No attempts yet.</p>}
       </div>
-      <div className="mt-6"><Link href="/leaderboard"><button className="text-blue-700">View leaderboard →</button></Link></div>
+      <div style={{ marginTop: "1.5rem" }}><Link href="/leaderboard" className="navbar-link">View leaderboard →</Link></div>
     </div>
   );
 }
-

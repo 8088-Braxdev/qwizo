@@ -24,39 +24,36 @@ export default function StudySetDetail() {
     setBookmarked(d.bookmarked);
   }
 
-  if (!ss) return <div className="container py-8">Loading...</div>;
+  if (!ss) return <div className="container section"><p className="muted">Loading...</p></div>;
 
   return (
-    <div className="container py-8 max-w-3xl">
-      <h1 className="text-3xl font-bold">{ss.title}</h1>
-      <p className="text-muted mt-2">{ss.description}</p>
-      <div className="mt-4 flex gap-2">
-        <Button onClick={toggleBm} variant="secondary">{bookmarked ? "Bookmarked" : "Bookmark"}</Button>
+    <div className="container-narrow section">
+      <h1 className="h1">{ss.title}</h1>
+      <p className="muted" style={{ marginTop: "0.5rem" }}>{ss.description}</p>
+      <div className="row" style={{ marginTop: "1.25rem" }}>
+        <Button variant="outline" onClick={toggleBm}>{bookmarked ? "Bookmarked" : "Bookmark"}</Button>
         {ss.quizzes?.[0] && <Link href={`/quiz/${ss.quizzes[0].id}/play`}><Button>Start quiz</Button></Link>}
       </div>
 
-      <div className="mt-8 space-y-4">
-        <h2 className="text-xl font-semibold">Quizzes</h2>
+      <h2 className="h2" style={{ marginTop: "2.5rem" }}>Quizzes</h2>
+      <div className="stack" style={{ marginTop: "1rem" }}>
         {(ss.quizzes || []).map((q: any) => (
-          <Card key={q.id} className="p-4">
-            <div className="font-medium">{q.title}</div>
-            <div className="text-sm text-muted">{q.questions?.length || 0} questions · {q.difficulty}</div>
-            <div className="mt-2">
-              <Link href={`/quiz/${q.id}/play`}><Button variant="secondary" className="text-sm">Play</Button></Link>
+          <Card key={q.id}>
+            <div className="h3" style={{ fontSize: "1.1rem" }}>{q.title}</div>
+            <div className="muted small" style={{ marginTop: "0.25rem" }}>{q.questions?.length || 0} questions · {q.difficulty}</div>
+            <div style={{ marginTop: "0.75rem" }}>
+              <Link href={`/quiz/${q.id}/play`}><Button variant="ghost" className="small">Play</Button></Link>
             </div>
           </Card>
         ))}
       </div>
 
       {(ss.flashcards || []).length > 0 && (
-        <div className="mt-8">
-          <h2 className="text-xl font-semibold">Flashcards</h2>
-          <div className="mt-4 grid md:grid-cols-2 gap-3">
+        <div style={{ marginTop: "2.5rem" }}>
+          <h2 className="h2">Flashcards</h2>
+          <div className="grid-2" style={{ marginTop: "1rem" }}>
             {ss.flashcards.map((f: any) => (
-              <Card key={f.id} className="p-4">
-                <div className="font-medium">{f.front}</div>
-                <div className="text-sm text-muted mt-2">{f.back}</div>
-              </Card>
+              <Card key={f.id}><div className="h3" style={{ fontSize: "1rem" }}>{f.front}</div><div className="muted small" style={{ marginTop: "0.5rem" }}>{f.back}</div></Card>
             ))}
           </div>
         </div>
